@@ -52,21 +52,21 @@
             const message = input.value.trim(); // Menghapus spasi di awal dan akhir pesan
             if (message) {
                 // Jika pesan tidak kosong, kirimkan pesan ke server
-                socket.emit("chatMessage", message);
+                socket.emit("pesanObrolan", message);
                 input.value = ""; // Kosongkan input setelah pesan dikirim
             }
         }
 
-        // Mendengarkan event 'chatMessage' dari server
-        socket.on("chatMessage", (data) => {
+        // Mendengarkan event 'pesanObrolan' dari server
+        socket.on("pesanObrolan", (data) => {
             const li = document.createElement("li");
             // Menampilkan pesan dengan format "nama pengguna: pesan"
-            li.innerHTML = `<strong>${data.user}:</strong> ${data.message}`;
+            li.innerHTML = `<strong>${data.pengguna}:</strong> ${data.pesan}`;
             document.getElementById("messages").appendChild(li); // Menambahkan pesan ke daftar pesan
         });
 
-        // Mendengarkan event 'userList' dari server
-        socket.on("userList", (users) => {
+        // Mendengarkan event 'daftarPengguna' dari server
+        socket.on("daftarPengguna", (users) => {
             const userList = document.getElementById("userList");
             userList.innerHTML = ""; // Mengosongkan daftar pengguna sebelum memperbarui
             users.forEach(user => {

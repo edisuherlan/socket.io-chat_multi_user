@@ -1,8 +1,8 @@
 // Mengimpor modul yang diperlukan
-const express = require("express"); // Mengimpor framework Express untuk membuat aplikasi web
-const http = require("http"); // Mengimpor modul HTTP bawaan Node.js untuk membuat server
-const socketIo = require("socket.io"); // Mengimpor Socket.io untuk komunikasi real-time
-const cors = require("cors"); // Mengimpor CORS untuk mengizinkan permintaan lintas asal
+const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
+const cors = require("cors");
 
 // Membuat instance aplikasi Express
 const app = express();
@@ -17,36 +17,40 @@ const io = socketIo(server, {
 app.use(cors());
 
 // Variabel untuk menyimpan daftar pengguna yang terhubung
-let pengguna = {}; // Menyimpan daftar pengguna yang terhubung
+const pengguna = {};
 
 // Menangani event 'connection' ketika pengguna terhubung ke server
 io.on("connection", (socket) => {
-    console.log("Pengguna terhubung:", socket.id); // Mencetak ID socket pengguna yang terhubung
+    console.log("Pengguna terhubung:", socket.id);
 
     // Menangani event 'join' ketika pengguna masuk dengan nama pengguna
     socket.on("join", (namaPengguna) => {
-        pengguna[socket.id] = namaPengguna; // Menyimpan nama pengguna berdasarkan ID socket
-        io.emit("daftarPengguna", Object.values(pengguna)); // Mengirim daftar pengguna yang terhubung ke semua klien
-        io.emit("pesanObrolan", { pengguna: "Server", pesan: `${namaPengguna} bergabung dalam obrolan` }); // Mengirim pesan bahwa pengguna baru telah bergabung
+        if (namaPengguna) {
+            pengguna[socket.id] = namaPengguna;
+            io.emit("daftarPengguna", Object.values(pengguna));
+            io.emit("pesanObrolan", { pengguna: "Server", pesan: `${namaPengguna} bergabung dalam obrolan` });
+        }
     });
 
     // Menangani event 'pesanObrolan' untuk mengirim pesan dari pengguna
     socket.on("pesanObrolan", (data) => {
-        io.emit("pesanObrolan", { pengguna: pengguna[socket.id], pesan: data }); // Meneruskan pesan ke semua klien
+        if (pengguna[socket.id] && data) {
+            io.emit("pesanObrolan", { pengguna: pengguna[socket.id], pesan: data });
+        }
     });
 
     // Menangani event 'disconnect' ketika pengguna terputus
     socket.on("disconnect", () => {
-        if (pengguna[socket.id]) { // Memeriksa apakah pengguna terdaftar
-            io.emit("pesanObrolan", { pengguna: "Server", pesan: `${pengguna[socket.id]} meninggalkan obrolan` }); // Mengirim pesan bahwa pengguna telah meninggalkan obrolan
-            delete pengguna[socket.id]; // Menghapus pengguna dari daftar
-            io.emit("daftarPengguna", Object.values(pengguna)); // Memperbarui daftar pengguna yang terhubung
+        if (pengguna[socket.id]) {
+            io.emit("pesanObrolan", { pengguna: "Server", pesan: `${pengguna[socket.id]} meninggalkan obrolan` });
+            delete pengguna[socket.id];
+            io.emit("daftarPengguna", Object.values(pengguna));
         }
-        console.log("Pengguna terputus:", socket.id); // Mencetak ID socket pengguna yang terputus
+        console.log("Pengguna terputus:", socket.id);
     });
 });
 
 // Menjalankan server pada port 3000
 server.listen(3000, () => {
-    console.log("Server Socket.io berjalan di port 3000"); // Mencetak pesan bahwa server berjalan
+    console.log("Server Socket.io berjalan di port 3000");
 });
