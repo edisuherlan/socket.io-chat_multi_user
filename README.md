@@ -38,7 +38,7 @@ chat_app2/
 
 ### 1️⃣ **Clone Repository**
 ```bash
-git clone https://github.com/username/chat_app2.git
+git clone https://github.com/edisuherlan/socket.io-chat_multi_user.git
 cd chat_app2
 ```
 
