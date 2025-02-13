@@ -18,21 +18,11 @@ Proyek ini adalah aplikasi chat multi-user berbasis web menggunakan **PHP Native
 
 ## 📂 Struktur Folder
 ```
-chat_app2/
+chat_app/
 │-- public/
 │   │-- index.php  # Halaman utama chat
-│   │-- assets/
-│   │   │-- style.css  # CSS untuk tampilan
-│   │-- js/
-│   │   │-- chat.js  # Logika komunikasi dengan Socket.io
-│-- server/
-│   │-- server.js  # Server WebSocket dengan Node.js
-│   │-- insert.php  # API untuk menambahkan pesan
-│   │-- fetch.php  # API untuk mengambil pesan
-│-- database/
-│   │-- db.sql  # File untuk struktur database (jika ada)
-│-- README.md  # Dokumentasi proyek
-```
+│-- server.js  # Server WebSocket dengan Node.js
+
 
 ## 🔧 Cara Instalasi dan Menjalankan
 
@@ -42,25 +32,19 @@ git clone https://github.com/edisuherlan/socket.io-chat_multi_user.git
 cd chat_app2
 ```
 
-### 2️⃣ **Setup Backend (PHP & MySQL)**
-- Pastikan **Apache & MySQL** berjalan (gunakan **XAMPP/Laragon** jika lokal).
-- Buat database baru di **phpMyAdmin**.
-- Impor `database/db.sql` ke MySQL.
-- Sesuaikan konfigurasi database di file `server/insert.php` dan `server/fetch.php`.
-
-### 3️⃣ **Menjalankan Server WebSocket (Node.js)**
+### 2️⃣ **Menjalankan Server WebSocket (Node.js)**
 - Install **Node.js** jika belum terpasang.
 - Jalankan perintah berikut di terminal:
 ```bash
 cd server
-npm install express socket.io mysql2 cors
+npm install express socket.io cors
 node server.js
 ```
 
 > Server akan berjalan di `http://localhost:3000`
 
-### 4️⃣ **Jalankan Aplikasi Chat**
-- Akses `http://localhost/pemrograman_jaringan/websocket/chat_app2/public/` di browser.
+### 3️⃣ **Jalankan Aplikasi Chat**
+- Akses `http://localhost/chat_app/public/` di browser.
 - Buka beberapa tab untuk menguji chat multi-user secara real-time.
 
 ## 🎯 Cara Menggunakan
