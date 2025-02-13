@@ -22,6 +22,8 @@ chat_app/
 │-- public/
 │   │-- index.php  # Halaman utama chat
 │-- server.js  # Server WebSocket dengan Node.js
+│-- README.md  # Dokumentasi proyek
+```
 
 
 ## 🔧 Cara Instalasi dan Menjalankan
